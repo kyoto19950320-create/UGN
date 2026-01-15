@@ -108,9 +108,12 @@
       justify-content:center;
     }
     .imgbox img{
-      width:100%;
-      height:auto;
-      display:block;
+     width:100%;
+     height:auto;
+     max-height: 320px;      /* ← スマホ想定の上限。好みで調整 */
+     object-fit: contain;    /* ← 画像を切らずに収める */
+     display:block;
+     margin:auto;
     }
     .qnum{
       font-weight:800;
