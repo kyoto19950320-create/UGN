@@ -1,103 +1,123 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>UGN公式・倫理試験（簡易版）</title>
-  <style>
-    :root{
-      --bg:#0b0f14;
-      --card:#101824;
-      --muted:#a7b3c2;
-      --text:#e8eef6;
-      --line:#223047;
-      --accent:#7fd1ff;
-      --danger:#ff6b6b;
-      --ok:#8bffb0;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; background:linear-gradient(180deg,#070a0f, var(--bg));
-      color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
-    }
-    .wrap{max-width:860px; margin:0 auto; padding:18px 14px 28px;}
-    .card{
-      background:rgba(16,24,36,.92); border:1px solid var(--line);
-      border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    .row{display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap}
-    .title{font-size:18px; font-weight:700; letter-spacing:.02em}
-    .muted{color:var(--muted); font-size:13px; line-height:1.6}
-    .pill{
-      border:1px solid var(--line); border-radius:999px; padding:6px 10px;
-      color:var(--muted); font-size:12px; background:rgba(0,0,0,.18)
-    }
-    .hero{
-      width:100%; max-height:320px; object-fit:contain;
-      border-radius:14px; border:1px solid var(--line); background:#0a111b;
-    }
-    .qimg{
-      width:100%; max-height:280px; object-fit:contain;
-      border-radius:14px; border:1px solid var(--line); background:#0a111b;
-    }
-    .choices{display:grid; gap:10px; margin-top:14px}
-    .choice{
-      width:100%; text-align:left; padding:12px 12px; border-radius:12px;
-      border:1px solid var(--line); background:rgba(0,0,0,.18);
-      color:var(--text); font-size:14px; line-height:1.45;
-    }
-    .choice.selected{
-      border-color:rgba(127,209,255,.9);
-      box-shadow:0 0 0 2px rgba(127,209,255,.25) inset;
-      background:rgba(127,209,255,.10);
-    }
-    .choice:active{transform:translateY(1px)}
-    .bottom{
-      position:sticky; bottom:0; padding:12px 0 0; margin-top:12px;
-      background:linear-gradient(180deg, rgba(11,15,20,0), rgba(11,15,20,.85) 35%, rgba(11,15,20,1));
-    }
-    .btn{
-      width:100%; padding:14px 14px; border-radius:14px; border:1px solid var(--line);
-      background:rgba(127,209,255,.12); color:var(--text); font-size:15px; font-weight:700;
-    }
-    .btn:disabled{opacity:.45}
-    .tiny{font-size:11px; color:var(--muted)}
-    .hr{height:1px; background:var(--line); margin:14px 0}
-    .resultGrid{display:grid; gap:12px}
-    .resultImg{
-      width:100%; max-height:260px; object-fit:contain;
-      border-radius:14px; border:1px solid var(--line); background:#0a111b;
-    }
-    .codeBox{
-      border:1px dashed var(--line); border-radius:12px; padding:10px 12px;
-      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      background:rgba(0,0,0,.18);
-    }
-    .warn{color:#ffd18b}
-    .ok{color:var(--ok)}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UGN Ethical Assessment</title>
+
+<style>
+  :root{
+    --bg:#0b0f14;
+    --panel:#101824;
+    --border:#223047;
+    --text:#e8eef6;
+    --muted:#a7b3c2;
+    --accent:#7fd1ff;
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: system-ui,-apple-system,"Noto Sans JP","Yu Gothic",sans-serif;
+  }
+  .wrap{max-width:900px;margin:auto;padding:16px;}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+  }
+  img{width:100%;object-fit:contain;display:block;border-radius:12px;}
+  .hero,.qimg,.resultImg{
+    max-height:260px;
+    background:#fff;
+  }
+  @media(min-width:768px){
+    .hero,.qimg,.resultImg{max-height:340px;}
+  }
+  .title{font-size:18px;font-weight:800;letter-spacing:.02em;}
+  .subtitle{font-size:14px;color:var(--muted);margin-top:4px;}
+  .muted{color:var(--muted);font-size:13px;line-height:1.6;}
+  .choices{margin-top:14px;display:grid;gap:10px;}
+  .choice{
+    padding:12px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    text-align:left;
+    line-height:1.4;
+  }
+  .choice.selected{
+    border-color:var(--accent);
+    background:#122033;
+  }
+  .btn{
+    margin-top:14px;
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:#16263a;
+    color:var(--text);
+    font-weight:800;
+    letter-spacing:.02em;
+  }
+  .btn:disabled{opacity:.4}
+  .code{
+    margin-top:12px;
+    padding:10px;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    font-size:13px;
+    color:#c6d2e1;
+    line-height:1.5;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .summary{
+    margin-top:12px;
+    line-height:1.7;
+    white-space:pre-line;
+  }
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .pill{
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:6px 10px;
+    font-size:12px;
+    color:#c6d2e1;
+    background:#0f1723;
+  }
+  .err{
+    margin-top:10px;
+    padding:10px;
+    border:1px solid #5a2b2b;
+    background:#2a1414;
+    border-radius:12px;
+    font-size:13px;
+    line-height:1.6;
+  }
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div id="view"></div>
-  </div>
+<div class="wrap"><div id="view"></div></div>
 
 <script>
-/** =========================
- * 設定
- * ========================= */
-const QUICK_LIMIT_MS = 5000; // 逡巡境界：5秒（= 5秒以内を「即答」、超えたら「逡巡」）
-const IMG_TOP = "img/top.png";
-const IMG_Q = (n)=>`img/q${n}.png`;
-const IMG_TYPE = (key)=>`img/types/${key}.png`;
+/* =======================
+   基本設定（時間）
+======================= */
+const QUICK = 5000;   // 5秒以内＝即答
+const DEEP  = 10000;  // 10秒超＝深逡巡
 
-// 10分類キー（あなたのファイル名に合わせている）
+/* 10分類キー（ファイル名と一致） */
 const TYPE_KEYS = [
   "Order","Delegator","Utilitarian","Altruist","Bearer",
   "Role","Impulse","Avoider","Anchor","Observer"
 ];
 
-// 表示文言（結果の総評：UGN口調で淡々と）
+/* 表示データ（UGN総評） */
 const TYPE_DATA = {
   Order:{ jp:"秩序優先型", title:"秩序維持を基準に置く判断", summary:
 `命令系統・規範を優先し、現場の混乱を最小化する傾向が強い。
@@ -134,294 +154,277 @@ const TYPE_DATA = {
   Anchor:{ jp:"依存安定型", title:"拠り所で安定する判断", summary:
 `組織・誰か・仕組みに依存することで判断が安定しやすい。
 依存先が崩れると急激に不安定化し、極端な判断に振れる危険がある。
-運用上は依存先を単一化しない（複数ロイス・複数指揮）構造が望ましい。`},
+運用上は依存先を単一化しない構造が望ましい。`},
   Observer:{ jp:"観測者型", title:"一歩引いて分析する判断", summary:
 `状況・利害・流れを俯瞰し、情報収集と分析に強い。
 当事者性が薄れやすく、責任を外部に置く癖が出る場合がある。
-運用上は明確な権限と責務を与え、最終決断局面では支援を用意すること。`}
+運用上は明確な権限と責務を与えることが重要。`}
 };
 
-// 設問（画像：q1〜q5、選択肢：5択）
+/* =======================
+   設問定義
+   ※ map のキーは 1〜5（選択肢番号）
+======================= */
 const QUESTIONS = [
-  {
-    id:1,
-    title:"第1問：見知らぬ命",
-    body:"封鎖区域内で、一般市民が1人倒れている。あなたの任務は「情報回収」であり、救助は想定されていない。",
-    choices:[
-      "任務を優先し、見なかったことにする",
-      "状況を確認し、可能なら最低限の救命処置だけ行う",
-      "その場で救助を試み、任務は後回しにする",
-      "上司に連絡し、判断を仰ぐ",
-      "自分が救うべきかどうかを、その人の状態で判断する"
-    ],
-    map:{1:["Order","Role"],2:["Bearer"],3:["Altruist"],4:["Delegator","Anchor"],5:["Utilitarian","Observer"]}
-  },
-  {
-    id:2,
-    title:"第2問：仲間の逸脱",
-    body:"同行しているエージェントが、命令を無視して独断行動を取ろうとしている。理由は「このままでは助からない人がいるから」だ。",
-    choices:[
-      "命令違反として制止する",
-      "表向きは止めつつ、裏でフォローする",
-      "共に行動し、結果は自分も引き受ける",
-      "その判断を尊重し、距離を取る",
-      "自分ならどうするかを即座に考え、同じ選択をする"
-    ],
-    map:{1:["Order","Role"],2:["Observer","Bearer"],3:["Altruist","Bearer"],4:["Delegator","Observer"],5:["Impulse"]}
-  },
-  {
-    id:3,
-    title:"第3問：情報の秘匿",
-    body:"真実を公表すれば混乱は起きるが、多くの人は救われる可能性がある。秘匿すれば秩序は保たれるが、犠牲は確実に出る。",
-    choices:[
-      "秘匿を選ぶ。秩序は最優先事項だ",
-      "段階的に情報を開示する",
-      "すべてを公表し、人々の判断に委ねる",
-      "公表の是非を決める立場の人間に委ねる",
-      "その情報を「誰が得をするか」で判断する"
-    ],
-    map:{1:["Order","Role"],2:["Bearer","Observer"],3:["Altruist"],4:["Delegator","Anchor"],5:["Utilitarian","Observer"]}
-  },
-  {
-    id:4,
-    title:"第4問：取り返しのつかない選択",
-    body:"目の前の選択は、どちらを選んでも誰かの人生を壊す。",
-    choices:[
-      "被害が少ない方を選ぶ",
-      "自分が後悔しない方を選ぶ",
-      "役割として与えられた選択をする",
-      "どちらも選ばず、第三の可能性を探す",
-      "自分が責任を取れる選択だけをする"
-    ],
-    map:{1:["Utilitarian"],2:["Impulse"],3:["Role","Order"],4:["Avoider"],5:["Bearer"]}
-  },
-  {
-    id:5,
-    title:"第5問：自分自身",
-    body:"あなたがオーヴァードであることが、公になる可能性が出た。",
-    choices:[
-      "何があっても隠し通す",
-      "必要とあらば明かす",
-      "公になる前に、身を引く",
-      "組織の判断に従う",
-      "公になること自体を、恐れていない"
-    ],
-    map:{1:["Order","Anchor"],2:["Altruist","Role"],3:["Avoider","Observer"],4:["Delegator"],5:["Impulse","Utilitarian"]}
-  }
+  {img:"q1", choices:[
+    "任務を優先し、見なかったことにする",
+    "最低限の救命処置だけ行う",
+    "救助を最優先する",
+    "上司に判断を仰ぐ",
+    "状態を見て判断する"
+  ], map:{
+    1:["Order","Role"],
+    2:["Bearer"],
+    3:["Altruist"],
+    4:["Delegator","Anchor"],
+    5:["Observer","Utilitarian"]
+  }},
+  {img:"q2", choices:[
+    "命令違反として制止する",
+    "裏でフォローする",
+    "共に行動する",
+    "距離を取る",
+    "同じ選択をする"
+  ], map:{
+    1:["Order"],
+    2:["Observer"],
+    3:["Altruist","Bearer"],
+    4:["Delegator"],
+    5:["Impulse"]
+  }},
+  {img:"q3", choices:[
+    "秘匿する",
+    "段階的に開示",
+    "全て公表",
+    "上に委ねる",
+    "得をする者で判断"
+  ], map:{
+    1:["Order"],
+    2:["Observer"],
+    3:["Altruist"],
+    4:["Delegator","Anchor"],
+    5:["Utilitarian"]
+  }},
+  {img:"q4", choices:[
+    "被害が少ない方",
+    "後悔しない方",
+    "役割に従う",
+    "第三の可能性",
+    "責任を取れる方"
+  ], map:{
+    1:["Utilitarian"],
+    2:["Impulse"],
+    3:["Role","Order"],
+    4:["Avoider"],
+    5:["Bearer"]
+  }},
+  {img:"q5", choices:[
+    "隠し通す",
+    "必要なら明かす",
+    "身を引く",
+    "組織に従う",
+    "恐れていない"
+  ], map:{
+    1:["Anchor","Order"],
+    2:["Altruist"],
+    3:["Avoider","Observer"],
+    4:["Delegator"],
+    5:["Impulse","Utilitarian"]
+  }}
 ];
 
-/** =========================
- * 状態
- * ========================= */
-let idx = -1;                 // -1:トップ, 0..:設問
-let qStart = 0;
-let selected = null;
-let answers = [];             // {qId, choiceIndex, elapsedMs}
-let scores = Object.fromEntries(TYPE_KEYS.map(k=>[k,0]));
-let quickCount = 0;           // 即答数
-let deliberateCount = 0;
+/* =======================
+   パス（ここが重要）
+   GitHub Pages の /UGN/ 配下でも壊れないように "./" を使う
+======================= */
+const ASSET = {
+  top:  "./img/top.png",
+  q:    (n)=>`./img/q${n}.png`,
+  type: (key)=>`./img/type/${key}.png`  // ←あなたの現状「type」単数に合わせた
+};
 
-/** =========================
- * 画面描画
- * ========================= */
-const view = document.getElementById("view");
+/* キャッシュ対策（更新直後に反映されない時のため） */
+const CACHE_BUST = ""; // 例: "?v=1" とか付けたければ "?v=20260115" など固定値で
 
-function renderTop(){
-  idx = -1;
-  view.innerHTML = `
-    <div class="card">
-      <div class="row">
-        <div class="title">UGN公式・倫理試験（簡易版）</div>
-        <div class="pill">記録：判断傾向 / 反応時間</div>
-      </div>
-      <div class="hr"></div>
-      <img class="hero" src="${IMG_TOP}" alt="top" />
-      <div class="hr"></div>
-      <div class="muted">
-        本試験は正誤を判定するものではありません。<br/>
-        あなたの判断傾向（選択内容）と反応時間（即答／逡巡）を、分析のために記録します。<br/><br/>
-        <span class="warn">※各設問は、選択肢を何度でも変更できます。</span><br/>
-        <span class="warn">※ただし「次へ」を押した時点で回答が確定し、前の設問には戻れません。</span><br/>
-        ※試験終了後、結果画面をスクリーンショットで共有してください。
-      </div>
-      <div class="bottom">
-        <button class="btn" onclick="start()">開始する</button>
-        <div class="tiny" style="margin-top:10px">逡巡判定：5秒（5秒以内=即答 / 超過=逡巡）</div>
-      </div>
-    </div>
-  `;
-  lockHistory();
+/* =======================
+   状態
+======================= */
+let step=-1;
+let startedAt=0;
+let selected=null;
+
+let score={};
+let qCnt=0;   // 即答
+let dCnt=0;   // 逡巡
+let ddCnt=0;  // 深逡巡
+
+TYPE_KEYS.forEach(t=>score[t]=0);
+
+const view=document.getElementById("view");
+
+/* =======================
+   便利関数
+======================= */
+function now(){ return performance.now(); }
+function ms(){ return Math.round(now()-startedAt); }
+
+function locationInfo(){
+  return `location.href = ${location.href}\nbase = ${location.origin + location.pathname.replace(/[^/]*$/, "")}`;
 }
 
-function renderQuestion(){
-  const q = QUESTIONS[idx];
-  view.innerHTML = `
-    <div class="card">
-      <div class="row">
-        <div class="title">${q.title}</div>
-        <div class="pill">${idx+1} / ${QUESTIONS.length}</div>
-      </div>
-      <div class="hr"></div>
-      <img class="qimg" src="${IMG_Q(q.id)}" alt="q${q.id}" />
-      <div class="hr"></div>
-      <div class="muted">${q.body}</div>
-
-      <div class="choices">
-        ${q.choices.map((t,i)=>`
-          <button class="choice ${selected===i+1?'selected':''}" onclick="pick(${i+1})">${i+1}. ${escapeHtml(t)}</button>
-        `).join("")}
-      </div>
-
-      <div class="bottom">
-        <button class="btn" ${selected?"" :"disabled"} onclick="next()">次へ（確定）</button>
-        <div class="tiny" style="margin-top:10px">
-          選択は変更できます。確定すると戻れません。
-        </div>
-      </div>
-    </div>
-  `;
-  lockHistory();
+function imgTag(src, cls, alt){
+  // 画像が404でも“真っ黒で何も出ない”を避ける：onerrorでメッセージ表示
+  const safeAlt = alt || "image";
+  return `
+    <img class="${cls}"
+         src="${src + CACHE_BUST}"
+         alt="${safeAlt}"
+         onerror="this.style.display='none';document.getElementById('imgErr').style.display='block';document.getElementById('imgErr').textContent='画像が読み込めません：${src}';">`;
 }
 
-function renderResult(finalType, code, speedNote){
-  const d = TYPE_DATA[finalType];
-  view.innerHTML = `
-    <div class="card">
-      <div class="row">
-        <div class="title">試験結果</div>
-        <div class="pill">スクリーンショット共有</div>
-      </div>
-      <div class="hr"></div>
+/* =======================
+   画面
+======================= */
+function top(){
+  view.innerHTML=`
+  <div class="card">
+    <div class="title">UGN ETHICAL ASSESSMENT</div>
 
-      <div class="resultGrid">
-        <img class="resultImg" src="${IMG_TYPE(finalType)}" alt="${finalType}" />
-        <div style="font-weight:700; font-size:16px;">
-          あなたの判断傾向は「${d.title}」に近い
-        </div>
-        <div class="muted" style="white-space:pre-line">${d.summary}</div>
+    <div id="imgErr" class="err" style="display:none;"></div>
+    ${imgTag(ASSET.top, "hero", "top")}
 
-        <div class="codeBox">
-          <div><span class="muted">Result Code</span>：<b>${code}</b></div>
-          <div class="${speedNote.includes('即答')?'ok':'warn'}">${speedNote}</div>
-        </div>
+    <p class="muted">
+      推奨：直感的に選択してください。<br>
+      ※迷った時間も評価対象です。<br>
+      ※次へ進むと戻れません。
+    </p>
 
-        <div class="tiny">
-          ※ 本結果は保存されません。スクリーンショットを共有してください。<br/>
-          ※ ブラウザの戻る／更新で試験が無効化される場合があります。
-        </div>
-
-        <button class="btn" onclick="restart()">最初から（再受験）</button>
-      </div>
+    <div class="row">
+      <div class="pill">即答：${QUICK/1000}s以内</div>
+      <div class="pill">深逡巡：${DEEP/1000}s超</div>
     </div>
-  `;
-  lockHistory();
+
+    <button class="btn" onclick="startTest()">開始</button>
+
+    <div class="code" style="margin-top:14px;">[診断用]\n${locationInfo()}\nTOP=${ASSET.top}</div>
+  </div>`;
 }
 
-/** =========================
- * 操作
- * ========================= */
-function start(){
-  // 初期化
-  answers = [];
-  scores = Object.fromEntries(TYPE_KEYS.map(k=>[k,0]));
-  quickCount = 0;
-  deliberateCount = 0;
-  idx = 0;
+function showQ(){
+  const q=QUESTIONS[step];
+  const qno = step+1;
+
+  view.innerHTML=`
+  <div class="card">
+    <div class="title">Question ${qno}</div>
+
+    <div id="imgErr" class="err" style="display:none;"></div>
+    ${imgTag(ASSET.q(qno), "qimg", `q${qno}`)}
+
+    <div class="choices">
+      ${q.choices.map((c,i)=>`
+        <button class="choice ${selected===i?'selected':''}" onclick="pick(${i})">${c}</button>
+      `).join("")}
+    </div>
+
+    <button class="btn" ${selected===null?'disabled':''} onclick="nextQ()">次へ</button>
+
+    <div class="code">[計測] 経過=${ms()}ms / 選択=${selected===null?'未選択':(selected+1)} / 画像=${ASSET.q(qno)}</div>
+  </div>`;
+}
+
+function result(){
+  // 最大スコアの型
+  let type = TYPE_KEYS.reduce((a,b)=> (score[a] >= score[b] ? a : b));
+  // 反応傾向フラグ（即答が多いならQ優先）
+  let flag = (qCnt>=3) ? "Q" : (ddCnt>=2) ? "DD" : "D";
+
+  const d = TYPE_DATA[type];
+
+  const code = `${type.slice(0,3).toUpperCase()}-${flag}`;
+
+  view.innerHTML=`
+  <div class="card">
+    <div class="title">診断結果</div>
+
+    <div id="imgErr" class="err" style="display:none;"></div>
+    ${imgTag(ASSET.type(type), "resultImg", type)}
+
+    <div class="title" style="margin-top:10px;">${d.jp}</div>
+    <div class="subtitle">${d.title}</div>
+
+    <div class="summary">${d.summary}</div>
+
+    <div class="row">
+      <div class="pill">Result Code：${code}</div>
+      <div class="pill">即答：${qCnt}</div>
+      <div class="pill">逡巡：${dCnt}</div>
+      <div class="pill">深逡巡：${ddCnt}</div>
+    </div>
+
+    <div class="code">[診断用]\n結果画像=${ASSET.type(type)}\nスコア=${JSON.stringify(score)}</div>
+
+    <p class="muted">※この画面をスクリーンショットで共有してください</p>
+
+    <button class="btn" onclick="resetAll()">最初から</button>
+  </div>`;
+}
+
+/* =======================
+   ロジック
+======================= */
+function startTest(){
+  step = 0;
   selected = null;
-  qStart = performance.now();
-  renderQuestion();
+  qCnt = 0; dCnt = 0; ddCnt = 0;
+  TYPE_KEYS.forEach(t=>score[t]=0);
+
+  startedAt = now();
+  showQ();
 }
 
-function pick(n){
-  selected = n; // 変更自由。時間は止めない。
-  renderQuestion();
+function pick(i){
+  selected = i;
+  showQ(); // 「選んだ後も変更できる」= 次へを押すまでは何度でも上書き
 }
 
-function next(){
-  const q = QUESTIONS[idx];
-  const elapsed = Math.max(0, performance.now() - qStart);
+function nextQ(){
+  const elapsed = now() - startedAt;
 
-  // 記録
-  answers.push({ qId:q.id, choiceIndex:selected, elapsedMs:elapsed });
+  // 迷い判定（回数）
+  if(elapsed <= QUICK) qCnt++;
+  else if(elapsed > DEEP) ddCnt++;
+  else dCnt++;
 
-  // 即答/逡巡
-  const isQuick = elapsed <= QUICK_LIMIT_MS;
-  if (isQuick) quickCount++; else deliberateCount++;
+  // 重み：即答だけ +2、逡巡は +1（あなたの元仕様）
+  const w = (elapsed <= QUICK) ? 2 : 1;
 
-  // スコアリング：該当タイプに加点（即答は+2、逡巡は+1）
-  const weight = isQuick ? 2 : 1;
-  const types = q.map[selected] || [];
-  for (const t of types){
-    if (scores[t] !== undefined) scores[t] += weight;
-  }
+  const q = QUESTIONS[step];
+  const selectedNo = selected + 1; // 1〜5
+  const adds = (q.map[selectedNo] || []);
+
+  adds.forEach(key => { score[key] += w; });
 
   // 次へ（戻れない）
-  idx++;
+  step++;
   selected = null;
 
-  if (idx >= QUESTIONS.length){
-    finalize();
-  }else{
-    qStart = performance.now();
-    renderQuestion();
+  if(step >= QUESTIONS.length){
+    result();
+    return;
   }
+  startedAt = now();
+  showQ();
 }
 
-function finalize(){
-  // 最大スコアのタイプを選ぶ（同点なら「即答が多い方を優先」→それでも同点なら固定順）
-  let best = TYPE_KEYS[0];
-  for (const k of TYPE_KEYS){
-    if (scores[k] > scores[best]) best = k;
-  }
-  // 同点処理（固定順でOKだが、少しUGNっぽくする）
-  const maxScore = scores[best];
-  const tied = TYPE_KEYS.filter(k => scores[k] === maxScore);
-  if (tied.length > 1){
-    // タイブレーク：Observer > Order > Utilitarian…みたいな「嫌な優先度」を作るならここで。
-    // いったん固定順の先頭を採用（必要なら後で調整）
-    best = tied[0];
-  }
-
-  const speedFlag = quickCount >= 3 ? "Q" : "D"; // 5問中3問以上が即答ならQ
-  const code = `${best.slice(0,3).toUpperCase()}-${speedFlag}`;
-  const speedNote = (speedFlag==="Q")
-    ? "反応傾向：即答寄り（衝動／信念が前に出やすい）"
-    : "反応傾向：逡巡寄り（状況判断／責任の検討が入りやすい）";
-
-  renderResult(best, code, speedNote);
+function resetAll(){
+  step = -1;
+  selected = null;
+  top();
 }
 
-function restart(){
-  renderTop();
-}
-
-/** =========================
- * “戻れない”の最低限対策
- * ========================= */
-function lockHistory(){
-  // 戻るボタン対策：疑似的に「戻っても同じ画面」にする
-  try{
-    history.pushState({locked:true}, "", location.href);
-  }catch(e){}
-}
-
-window.addEventListener("popstate", (e)=>{
-  // 戻る操作が来たら試験を無効化（UGNっぽい）
-  // ここでは「トップに戻す」
-  renderTop();
-});
-
-/** =========================
- * util
- * ========================= */
-function escapeHtml(str){
-  return String(str).replace(/[&<>"']/g, s => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[s]));
-}
-
-// 初期表示
-renderTop();
+/* 初期表示 */
+top();
 </script>
 </body>
 </html>
