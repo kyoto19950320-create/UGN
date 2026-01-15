@@ -225,6 +225,17 @@
     height: auto !important;
     object-fit: contain !important;
   }
+  /* 画像がデカくなりすぎない上限 */
+　　.imgbox{
+　  height: 240px;      /* ←ここが効く */
+　  min-height: 240px;  /* 既存のmin-heightを上書き */
+  }
+  @media (max-width: 560px){
+  .imgbox{
+    height: 200px;
+    min-height: 200px;
+  }
+  }
   </style>
 </head>
 <body>
