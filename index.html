@@ -659,6 +659,7 @@ function finish(){
   const t = CONFIG.types[typeKey];
 
   els.resultType.textContent = t ? t.name : `結果：${typeKey}`;
+  resultImg: document.getElementById("resultImg"),
   els.resultDesc.textContent = t ? t.desc : "";
 
   renderLogTable();
