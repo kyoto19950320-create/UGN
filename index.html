@@ -437,18 +437,7 @@ const CONFIG = {
   ],
 
   // 結果タイプ（説明文）
-  types: {
-    Order: { name:"① 秩序優先型（Order）", desc:`組織・命令・ルールを最優先する\n混乱より犠牲を選ぶ覚悟がある\n\n→ 安定した戦力\n→ 上が腐ると一気に破綻する` },
-    Delegator:{ name:"② 責任限定型（Delegator）", desc:`判断を上に委ねる傾向が強い\n自分の限界を正確に把握している\n\n→ 現場向き\n→ 上司不在時に最も壊れやすい` },
-    Utilitarian:{ name:"③ 功利計算型（Utilitarian）", desc:`結果・人数・効率で判断する\n感情は判断材料の一部に過ぎない\n\n→ 作戦参謀向き\n→ 「切り捨て」に慣れすぎる危険` },
-    Altruist:{ name:"④ 献身行動型（Altruist）", desc:`目の前の命・感情に引きずられる\n即断が多く、後悔も多い\n\n→ ヒーロー気質\n→ 失敗した時に自壊しやすい` },
-    Bearer:{ name:"⑤ 自己責任型（Bearer）", desc:`「自分が背負えるか」で判断する\n美談を嫌い、現実的\n\n→ 信頼されやすい\n→ 限界を超えると一気に折れる` },
-    Role:{ name:"⑥ 役割遵守型（Role）", desc:`立場・配属・役目を最優先\n感情と判断を切り分ける\n\n→ 組織的に優秀\n→ 人間関係が希薄になりがち` },
-    Impulse:{ name:"⑦ 直感衝動型（Impulse）", desc:`即答が多く、理由は後付け\n過去の経験に強く影響される\n\n→ 危機対応が速い\n→ 誘導・洗脳に弱い` },
-    Avoider:{ name:"⑧ 熟慮回避型（Avoider）", desc:`選択そのものを避けがち\n第三の道を探す傾向\n\n→ 想定外の突破口を見つける\n→ 決断を迫られると詰む` },
-    Anchor:{ name:"⑨ 依存安定型（Anchor）", desc:`組織・誰か・仕組みに依存することで安定\n単独判断を嫌う\n\n→ チームでは強い\n→ 依存先が壊れると危険` },
-    Observer:{ name:"⑩ 観測者型（Observer）", desc:`状況・利害・流れを一歩引いて見る\n自分を“外”に置く癖がある\n\n→ 情報収集・分析向き\n→ 当事者性を失いやすい` }
-  },
+  
 
   // 結果画像（ここが重要：ファイル名は大小文字一致）
   resultImages: {
@@ -466,7 +455,58 @@ const CONFIG = {
 };
 
 /* ========= APP ========= */
-const els = {
+const els = {types: {
+  Order: {
+    name: "秩序優先型（Order）",
+    image: "img/types/Order.png",
+    desc: "組織・命令・ルールを最優先する\n混乱より犠牲を選ぶ覚悟がある\n\n→ 安定した戦力\n→ 上が腐ると一気に破綻する"
+  },
+  Delegator: {
+    name: "責任限定型（Delegator）",
+    image: "img/types/Delegator.png",
+    desc: "判断を上位や仕組みに委ねる\n責任の所在を明確にする\n\n→ 組織向き\n→ 主体性を失いやすい"
+  },
+  Utilitarian: {
+    name: "功利計算型（Utilitarian）",
+    image: "img/types/Utilitarian.png",
+    desc: "最大多数の最大幸福を優先\n感情より結果を見る\n\n→ 合理的\n→ 少数切り捨てがち"
+  },
+  Altruist: {
+    name: "献身行動型（Altruist）",
+    image: "img/types/Altruist.png",
+    desc: "自分を犠牲にして他者を守る\n感情に忠実\n\n→ 信頼される\n→ 燃え尽きやすい"
+  },
+  Bearer: {
+    name: "自己責任型（Bearer）",
+    image: "img/types/Bearer.png",
+    desc: "自分が背負うことを選ぶ\n逃げない\n\n→ 強い覚悟\n→ 抱え込みすぎる"
+  },
+  Role: {
+    name: "役割遵守型（Role）",
+    image: "img/types/Role.png",
+    desc: "与えられた役割を全うする\n私情を挟まない\n\n→ 安定感\n→ 柔軟性に欠ける"
+  },
+  Impulse: {
+    name: "直感衝動型（Impulse）",
+    image: "img/types/Impulse.png",
+    desc: "即断即決\n理由は後付け\n\n→ 危機対応が速い\n→ 誘導・洗脳に弱い"
+  },
+  Avoider: {
+    name: "熟慮回避型（Avoider）",
+    image: "img/types/Avoider.png",
+    desc: "衝突を避ける\n選ばないことを選ぶ\n\n→ 被害最小\n→ 判断放棄になりがち"
+  },
+  Anchor: {
+    name: "依存安定型（Anchor）",
+    image: "img/types/Anchor.png",
+    desc: "組織・誰か・仕組みに依存\n単独判断を嫌う\n\n→ チームで強い\n→ 依存先が壊れると危険"
+  },
+  Observer: {
+    name: "観測者型（Observer）",
+    image: "img/types/Observer.png",
+    desc: "一歩引いて全体を見る\n当事者にならない\n\n→ 分析向き\n→ 当事者性を失いやすい"
+  }
+        }
   stateText: document.getElementById("stateText"),
   speedText: document.getElementById("speedText"),
   progressText: document.getElementById("progressText"),
