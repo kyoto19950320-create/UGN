@@ -208,6 +208,25 @@
       background:#fafafa;
       width: 40%;
     }
+    /* ===== スマホ最適化（強制1カラム） ===== */
+@media (max-width: 560px){
+  .wrap{ padding: 12px 10px 32px; }
+
+  /* 結果：2カラムを1カラムへ */
+  .grid2{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 画像枠：高さを抑える */
+  .imgbox{
+    min-height: 140px !important;
+  }
+  .imgbox img{
+    width: 100% !important;
+    max-height: 260px !important;   /* ここを 220〜320 で好み調整 */
+    height: auto !important;
+    object-fit: contain !important;
+  }
   </style>
 </head>
 <body>
