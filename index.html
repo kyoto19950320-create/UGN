@@ -1,1 +1,731 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <title>UGN 倫理試験</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111;
+      --muted:#666;
+      --line:#111;
+      --accent:#0a8a3a;
+      --danger:#c0392b;
+      --card:#f6f7f8;
+      --btn:#111;
+      --btnText:#fff;
+      --btn2:#e9ecef;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+    .wrap{
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    .band{
+      border-top: 8px solid var(--line);
+      border-bottom: 8px solid var(--line);
+      padding: 12px 10px;
+      margin: 0 0 12px;
+    }
+    .title{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .04em;
+    }
+    .sub{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      border:1px solid #ddd;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background:#fff;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .label{ font-weight:700; color: var(--ink); }
+    .status{ font-weight:700; color: var(--accent); }
+    .status.danger{ color: var(--danger); }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
 
+    .card{
+      background: var(--card);
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media(min-width:860px){
+      .row{
+        grid-template-columns: 1.1fr .9fr;
+        align-items:start;
+      }
+    }
+
+    /* ===== 画像がデカく暴走しない枠 =====
+       - 高さ固定で崩れやすいので、"最大高" + overflow で抑える
+       - object-fit: contain で全体を収める
+    */
+    .imgbox{
+      background:#fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      max-height: 340px;          /* デフォルト上限 */
+    }
+    .imgbox img{
+      width: 100%;
+      height: 100%;
+      display:block;
+      object-fit: contain;
+    }
+    @media(max-width:560px){
+      .imgbox{ max-height: 260px; }  /* スマホはさらに抑える */
+    }
+
+    .qnum{
+      font-weight:800;
+      margin:0 0 6px;
+      font-size:13px;
+      letter-spacing:.02em;
+    }
+    .qtext{
+      margin:0 0 10px;
+      line-height:1.6;
+      font-size: 15px;
+      white-space: pre-wrap;
+    }
+
+    .btns{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media(min-width:560px){
+      .btns{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .btn{
+      border:0;
+      border-radius: 14px;
+      padding: 14px 14px;
+      background: var(--btn);
+      color: var(--btnText);
+      font-size: 15px;
+      cursor:pointer;
+      text-align:left;
+      line-height:1.35;
+      box-shadow: 0 1px 0 rgba(0,0,0,.15);
+      touch-action: manipulation;
+    }
+    .btn.secondary{
+      background: var(--btn2);
+      color: var(--ink);
+      border: 1px solid #cfd4da;
+      box-shadow:none;
+      text-align:center;
+      font-weight:800;
+    }
+    .btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+    .footer{
+      margin-top: 12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .small{
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.45;
+    }
+
+    .resultTitle{ font-size: 18px; margin: 0 0 8px; }
+    .resultType{ font-size: 20px; font-weight: 900; margin: 0 0 8px; }
+    .resultDesc{ margin:0; line-height:1.6; white-space: pre-wrap; }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media(min-width:860px){
+      .grid2{ grid-template-columns: 1fr 1fr; }
+    }
+    .table{
+      width:100%;
+      border-collapse:collapse;
+      font-size: 13px;
+      background:#fff;
+      border:1px solid #ddd;
+      border-radius: 12px;
+      overflow:hidden;
+    }
+    .table th,.table td{
+      padding:10px 10px;
+      border-bottom:1px solid #eee;
+      vertical-align:top;
+    }
+    .table th{
+      text-align:left;
+      background:#fafafa;
+      width: 40%;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="band">
+    <div class="title">
+      <div>
+        <h1>UGN 倫理試験（視覚誘導型）</h1>
+        <div class="sub">※正解／不正解はありません。選択と速度から判断傾向を記録します。</div>
+      </div>
+      <div class="meta">
+        <div class="pill"><span class="label">状態</span> <span id="stateText" class="status danger">未開始</span></div>
+        <div class="pill"><span class="label">判定</span> <span id="speedText" class="mono">---</span></div>
+        <div class="pill"><span class="label">進捗</span> <span id="progressText" class="mono">0/5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP -->
+  <div id="topArea" class="card">
+    <div class="qnum">サイトトップ</div>
+    <div class="row">
+      <div class="imgbox">
+        <img id="topImg" alt="top image" />
+      </div>
+      <div>
+        <p class="qtext" id="topText"></p>
+        <button id="startBtn" class="btn secondary" style="width:100%;">計測開始</button>
+        <div class="footer">
+          <div class="small">
+            ・「計測開始」押下で計測開始<br/>
+            ・各設問：選択 → 「次へ」<br/>
+            ・結果は最後に表示（スクショ推奨）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizArea" class="card" style="display:none;">
+    <div class="qnum" id="qNum"></div>
+    <div class="row">
+      <div class="imgbox">
+        <img id="qImg" alt="question image" />
+      </div>
+      <div>
+        <p class="qtext" id="qText"></p>
+        <div class="btns" id="answerBtns"></div>
+
+        <div class="footer">
+          <div class="small" id="hintText"></div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="nextBtn" class="btn secondary" disabled>次に進む</button>
+            <button id="resetBtn" class="btn secondary">最初から</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultArea" class="card" style="display:none;">
+    <h2 class="resultTitle">結果</h2>
+    <div class="resultType" id="resultType"></div>
+
+    <!-- 結果画像（ここが追加ポイント） -->
+    <div class="imgbox" style="margin-top:10px;">
+      <img id="resultImg" alt="result image" />
+    </div>
+
+    <p class="resultDesc" id="resultDesc" style="margin-top:10px;"></p>
+
+    <div class="grid2" style="margin-top:14px;">
+      <div class="card" style="margin:0; background:#fff;">
+        <div class="qnum">回答ログ</div>
+        <table class="table" id="logTable"></table>
+      </div>
+      <div class="card" style="margin:0; background:#fff;">
+        <div class="qnum">結果コード（スクショ用）</div>
+        <p class="resultDesc mono" id="resultCode" style="font-size:14px;"></p>
+        <div class="small">
+          GMへの共有はスクショが最短。<br/>
+          URL共有（結果をURLに埋め込む）も拡張できます。
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button id="resetBtn2" class="btn secondary">最初から</button>
+      <div class="small">※GitHub Pagesで公開すればスマホからURLで利用できます。</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ========= CONFIG ========= */
+const CONFIG = {
+  // 画像パス
+  topImage: "img/top.png",
+
+  // トップ文章
+  topText: [
+    "UGN内部資料：倫理試験（簡易）",
+    "あなたの判断傾向を、選択と回答速度から記録します。",
+    "",
+    "準備ができたら「計測開始」を押してください。"
+  ].join("\n"),
+
+  // スマホは指移動があるので 3.5〜4.0 秒推奨
+  instantThresholdSec: 3.8,
+
+  questions: [
+    {
+      title: "第1問：見知らぬ命",
+      image: "img/q1.png",
+      text:
+`封鎖区域内で、一般市民が1人倒れている。
+あなたの任務は「情報回収」であり、救助は想定されていない。
+どう行動する？`,
+      answers: [
+        "任務を優先し、見なかったことにする",
+        "状況を確認し、可能なら最低限の救命処置だけ行う",
+        "その場で救助を試み、任務は後回しにする",
+        "上司に連絡し、判断を仰ぐ",
+        "その人の状態（助かる見込み等）で判断する"
+      ],
+      scoreMap: {
+        1: { Order:2, Utilitarian:1 },
+        2: { Altruist:2, Bearer:1 },
+        3: { Altruist:3 },
+        4: { Delegator:3, Anchor:1 },
+        5: { Utilitarian:2, Observer:1 }
+      }
+    },
+    {
+      title: "第2問：仲間の逸脱",
+      image: "img/q2.png",
+      text:
+`同行しているエージェントが、命令を無視して独断行動を取ろうとしている。
+理由は「このままでは助からない人がいるから」だ。`,
+      answers: [
+        "命令違反として制止する",
+        "表向きは止めつつ、裏でフォローする",
+        "共に行動し、結果は自分も引き受ける",
+        "その判断を尊重し、距離を取る",
+        "自分ならどうするかを即座に考え、同じ選択をする"
+      ],
+      scoreMap: {
+        1: { Order:3, Role:1 },
+        2: { Bearer:1, Observer:1, Utilitarian:1 },
+        3: { Altruist:2, Bearer:2 },
+        4: { Observer:2, Avoider:1 },
+        5: { Impulse:2, Altruist:1 }
+      }
+    },
+    {
+      title: "第3問：情報の秘匿",
+      image: "img/q3.png",
+      text:
+`真実を公表すれば混乱は起きるが、多くの人は救われる可能性がある。
+秘匿すれば秩序は保たれるが、犠牲は確実に出る。`,
+      answers: [
+        "秘匿を選ぶ。秩序は最優先事項だ",
+        "段階的に情報を開示する",
+        "すべてを公表し、人々の判断に委ねる",
+        "公表の是非を決める立場の人間に委ねる",
+        "その情報を「誰が得をするか」で判断する"
+      ],
+      scoreMap: {
+        1: { Order:3, Role:1 },
+        2: { Role:2, Utilitarian:1 },
+        3: { Altruist:1, Observer:1 },
+        4: { Delegator:3, Anchor:1 },
+        5: { Utilitarian:3, Observer:1 }
+      }
+    },
+    {
+      title: "第4問：取り返しのつかない選択",
+      image: "img/q4.png",
+      text:`目の前の選択は、どちらを選んでも誰かの人生を壊す。`,
+      answers: [
+        "被害が少ない方を選ぶ",
+        "自分が後悔しない方を選ぶ",
+        "役割として与えられた選択をする",
+        "どちらも選ばず、第三の可能性を探す",
+        "自分が責任を取れる選択だけをする"
+      ],
+      scoreMap: {
+        1: { Utilitarian:3 },
+        2: { Bearer:1, Impulse:1 },
+        3: { Role:3, Order:1 },
+        4: { Avoider:3, Observer:1 },
+        5: { Bearer:3 }
+      }
+    },
+    {
+      title: "第5問：自分自身",
+      image: "img/q5.png",
+      text:`あなたがオーヴァードであることが、公になる可能性が出た。`,
+      answers: [
+        "何があっても隠し通す",
+        "必要とあらば明かす",
+        "公になる前に、身を引く",
+        "組織の判断に従う",
+        "公になること自体を、恐れていない"
+      ],
+      scoreMap: {
+        1: { Order:1, Anchor:1, Observer:1 },
+        2: { Bearer:1, Role:1 },
+        3: { Avoider:2, Observer:1 },
+        4: { Delegator:2, Anchor:3, Role:1 },
+        5: { Impulse:1, Observer:1 }
+      }
+    }
+  ],
+
+  // 結果タイプ（説明文）
+  types: {
+    Order: { name:"① 秩序優先型（Order）", desc:`組織・命令・ルールを最優先する\n混乱より犠牲を選ぶ覚悟がある\n\n→ 安定した戦力\n→ 上が腐ると一気に破綻する` },
+    Delegator:{ name:"② 責任限定型（Delegator）", desc:`判断を上に委ねる傾向が強い\n自分の限界を正確に把握している\n\n→ 現場向き\n→ 上司不在時に最も壊れやすい` },
+    Utilitarian:{ name:"③ 功利計算型（Utilitarian）", desc:`結果・人数・効率で判断する\n感情は判断材料の一部に過ぎない\n\n→ 作戦参謀向き\n→ 「切り捨て」に慣れすぎる危険` },
+    Altruist:{ name:"④ 献身行動型（Altruist）", desc:`目の前の命・感情に引きずられる\n即断が多く、後悔も多い\n\n→ ヒーロー気質\n→ 失敗した時に自壊しやすい` },
+    Bearer:{ name:"⑤ 自己責任型（Bearer）", desc:`「自分が背負えるか」で判断する\n美談を嫌い、現実的\n\n→ 信頼されやすい\n→ 限界を超えると一気に折れる` },
+    Role:{ name:"⑥ 役割遵守型（Role）", desc:`立場・配属・役目を最優先\n感情と判断を切り分ける\n\n→ 組織的に優秀\n→ 人間関係が希薄になりがち` },
+    Impulse:{ name:"⑦ 直感衝動型（Impulse）", desc:`即答が多く、理由は後付け\n過去の経験に強く影響される\n\n→ 危機対応が速い\n→ 誘導・洗脳に弱い` },
+    Avoider:{ name:"⑧ 熟慮回避型（Avoider）", desc:`選択そのものを避けがち\n第三の道を探す傾向\n\n→ 想定外の突破口を見つける\n→ 決断を迫られると詰む` },
+    Anchor:{ name:"⑨ 依存安定型（Anchor）", desc:`組織・誰か・仕組みに依存することで安定\n単独判断を嫌う\n\n→ チームでは強い\n→ 依存先が壊れると危険` },
+    Observer:{ name:"⑩ 観測者型（Observer）", desc:`状況・利害・流れを一歩引いて見る\n自分を“外”に置く癖がある\n\n→ 情報収集・分析向き\n→ 当事者性を失いやすい` }
+  },
+
+  // 結果画像（ここが重要：ファイル名は大小文字一致）
+  resultImages: {
+    Order: "img/Order.png",
+    Delegator: "img/Delegator.png",
+    Utilitarian: "img/Utilitarian.png",
+    Altruist: "img/Altruist.png",
+    Bearer: "img/Bearer.png",
+    Role: "img/Role.png",
+    Impulse: "img/Impulse.png",
+    Avoider: "img/Avoider.png",
+    Anchor: "img/Anchor.png",
+    Observer: "img/Observer.png",
+  }
+};
+
+/* ========= APP ========= */
+const els = {
+  stateText: document.getElementById("stateText"),
+  speedText: document.getElementById("speedText"),
+  progressText: document.getElementById("progressText"),
+  topArea: document.getElementById("topArea"),
+  topImg: document.getElementById("topImg"),
+  topText: document.getElementById("topText"),
+  startBtn: document.getElementById("startBtn"),
+  quizArea: document.getElementById("quizArea"),
+  qNum: document.getElementById("qNum"),
+  qImg: document.getElementById("qImg"),
+  qText: document.getElementById("qText"),
+  answerBtns: document.getElementById("answerBtns"),
+  nextBtn: document.getElementById("nextBtn"),
+  resetBtn: document.getElementById("resetBtn"),
+  hintText: document.getElementById("hintText"),
+  resultArea: document.getElementById("resultArea"),
+  resultType: document.getElementById("resultType"),
+  resultDesc: document.getElementById("resultDesc"),
+  resultImg: document.getElementById("resultImg"),
+  logTable: document.getElementById("logTable"),
+  resultCode: document.getElementById("resultCode"),
+  resetBtn2: document.getElementById("resetBtn2"),
+};
+
+let qStartedAt = null;
+let qIndex = 0;
+let selected = null;
+let answersLog = [];
+let score = {};
+
+function initScore(){
+  score = {};
+  Object.keys(CONFIG.types).forEach(k => score[k] = 0);
+}
+function setState(text, ok){
+  els.stateText.textContent = text;
+  els.stateText.classList.toggle("danger", !ok);
+}
+function setSpeed(text){ els.speedText.textContent = text; }
+function setProgress(){ els.progressText.textContent = `${Math.min(qIndex, CONFIG.questions.length)}/${CONFIG.questions.length}`; }
+function msToSec(ms){ return Math.max(0, ms) / 1000; }
+function speedLabelFromMs(ms){
+  return (msToSec(ms) <= CONFIG.instantThresholdSec) ? "即答" : "逡巡";
+}
+
+function renderTop(){
+  els.topImg.src = CONFIG.topImage;
+  els.topText.textContent = CONFIG.topText;
+
+  setState("未開始", false);
+  setSpeed("---");
+  qIndex = 0;
+  answersLog = [];
+  selected = null;
+  initScore();
+  setProgress();
+
+  els.topArea.style.display = "";
+  els.quizArea.style.display = "none";
+  els.resultArea.style.display = "none";
+}
+
+function start(){
+  setState("計測中", true);
+  qIndex = 0;
+  answersLog = [];
+  initScore();
+
+  els.topArea.style.display = "none";
+  els.resultArea.style.display = "none";
+  els.quizArea.style.display = "";
+
+  renderQuestion();
+}
+
+function renderQuestion(){
+  selected = null;
+  els.nextBtn.disabled = true;
+  els.answerBtns.innerHTML = "";
+
+  const q = CONFIG.questions[qIndex];
+  els.qNum.textContent = `${q.title}（${qIndex+1}/${CONFIG.questions.length}）`;
+  els.qText.textContent = q.text;
+  els.qImg.src = q.image;
+
+  qStartedAt = performance.now();
+  setSpeed("---");
+  setProgress();
+
+  q.answers.forEach((label, i) => {
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = `${i+1}. ${label}`;
+    btn.addEventListener("click", () => onChoose(i+1));
+    els.answerBtns.appendChild(btn);
+  });
+
+  els.hintText.innerHTML =
+    `回答後に <span class="mono">即答/逡巡</span> を自動判定します（閾値：${CONFIG.instantThresholdSec.toFixed(1)}秒）。`;
+}
+
+function onChoose(answerIndex){
+  if(selected) return;
+
+  const elapsed = performance.now() - qStartedAt;
+  const label = speedLabelFromMs(elapsed);
+
+  selected = {
+    qIndex,
+    answerIndex,
+    timeMs: Math.round(elapsed),
+    timeSec: msToSec(elapsed),
+    speed: label
+  };
+
+  // スコア加算
+  const q = CONFIG.questions[qIndex];
+  const map = q.scoreMap[String(answerIndex)] || {};
+  for(const [typeKey, pts] of Object.entries(map)){
+    score[typeKey] = (score[typeKey] ?? 0) + pts;
+  }
+
+  // 速度補正（軽く）
+  if(label === "即答"){
+    score.Impulse += 1;
+  } else {
+    score.Observer += 1;
+    score.Bearer += 1;
+  }
+
+  setSpeed(`${label}（${selected.timeSec.toFixed(2)}s）`);
+
+  [...els.answerBtns.children].forEach((b, idx) => {
+    b.disabled = true;
+    if(idx+1 === answerIndex){
+      b.textContent = "▶ " + b.textContent;
+    }
+  });
+
+  els.nextBtn.disabled = false;
+  answersLog[qIndex] = selected;
+}
+
+function next(){
+  if(!selected) return;
+  qIndex += 1;
+  if(qIndex >= CONFIG.questions.length){
+    finish();
+  }else{
+    renderQuestion();
+  }
+}
+
+function pickResultType(){
+  let max = -Infinity;
+  let candidates = [];
+  for(const [k,v] of Object.entries(score)){
+    if(v > max){
+      max = v;
+      candidates = [k];
+    }else if(v === max){
+      candidates.push(k);
+    }
+  }
+  if(candidates.length === 1) return candidates[0];
+
+  const instantCount = answersLog.filter(a => a && a.speed === "即答").length;
+  const instantRate = instantCount / CONFIG.questions.length;
+
+  if(candidates.includes("Impulse") && instantRate >= 0.6) return "Impulse";
+  if(candidates.includes("Observer") && instantRate <= 0.4) return "Observer";
+
+  const order = ["Order","Role","Utilitarian","Bearer","Delegator","Anchor","Altruist","Observer","Avoider","Impulse"];
+  for(const k of order){
+    if(candidates.includes(k)) return k;
+  }
+  return candidates[0];
+}
+
+function buildResultCode(finalTypeKey){
+  const parts = answersLog.map((a,i)=>{
+    const s = a.speed === "即答" ? "I" : "D";
+    return `Q${i+1}:${a.answerIndex}${s}`;
+  });
+  const instantCount = answersLog.filter(a => a.speed === "即答").length;
+  const avgSec = answersLog.reduce((acc,a)=>acc+a.timeSec,0)/answersLog.length;
+  return `TYPE=${finalTypeKey} | INST=${instantCount}/5 | AVG=${avgSec.toFixed(2)}s | ${parts.join(" ")}`;
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function renderLogTable(){
+  const rows = [];
+  rows.push(`<tr><th>設問</th><th>回答</th></tr>`);
+  answersLog.forEach((a,i)=>{
+    const q = CONFIG.questions[i];
+    const ansText = q.answers[a.answerIndex-1];
+    rows.push(
+      `<tr>
+        <td>${escapeHtml(q.title)}</td>
+        <td>
+          <div><span class="mono">${a.answerIndex}</span>. ${escapeHtml(ansText)}</div>
+          <div class="small">判定：<b>${a.speed}</b>（${a.timeSec.toFixed(2)}s）</div>
+        </td>
+      </tr>`
+    );
+  });
+  els.logTable.innerHTML = rows.join("");
+}
+
+function finish(){
+  setState("完了", true);
+  els.quizArea.style.display = "none";
+  els.resultArea.style.display = "";
+
+  const typeKey = pickResultType();
+  const t = CONFIG.types[typeKey];
+
+  els.resultType.textContent = t ? t.name : `結果：${typeKey}`;
+  els.resultDesc.textContent = t ? t.desc : "";
+
+  // 結果画像の表示（出ない時の保険も入れる）
+  const imgPath = CONFIG.resultImages[typeKey];
+  if(imgPath){
+    els.resultImg.src = imgPath;
+    els.resultImg.alt = `${typeKey} image`;
+    els.resultImg.onerror = () => {
+      // 画像が見つからなかった時は空にして分かりやすくする
+      els.resultImg.removeAttribute("src");
+      els.resultImg.alt = "（結果画像が見つかりません）";
+    };
+  }else{
+    els.resultImg.removeAttribute("src");
+    els.resultImg.alt = "（結果画像未設定）";
+  }
+
+  renderLogTable();
+  els.resultCode.textContent = buildResultCode(typeKey);
+  setProgress();
+}
+
+function resetAll(){
+  renderTop();
+}
+
+els.startBtn.addEventListener("click", start);
+els.nextBtn.addEventListener("click", next);
+els.resetBtn.addEventListener("click", resetAll);
+els.resetBtn2.addEventListener("click", resetAll);
+
+// boot
+renderTop();
+</script>
+</body>
+  </html>
