@@ -451,6 +451,7 @@ const els = {
   resetBtn: document.getElementById("resetBtn"),
   hintText: document.getElementById("hintText"),
   resultArea: document.getElementById("resultArea"),
+  resultImg: document.getElementById("resultImg"),
   resultType: document.getElementById("resultType"),
   resultDesc: document.getElementById("resultDesc"),
   logTable: document.getElementById("logTable"),
@@ -660,7 +661,8 @@ function finish(){
   const t = CONFIG.types[typeKey];
 
   els.resultType.textContent = t ? t.name : `結果：${typeKey}`;
-  resultImg: document.getElementById("resultImg"),
+  els.resultImg.src = `img/types/${typeKey}.png`;
+  els.resultImg.alt = typeKey;
   els.resultDesc.textContent = t ? t.desc : "";
 
   renderLogTable();
